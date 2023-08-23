@@ -16,6 +16,7 @@ public class PlayerInfo : MonoBehaviour
     //guarda informação da onde o player está
     private Transform playerTransform;
 
+    private SpriteRenderer spriteRenderer;
     //se ele is hurt kkkk
     private bool isHurt;
 
@@ -34,6 +35,7 @@ public class PlayerInfo : MonoBehaviour
         }
 
         playerTransform = GetComponent<Transform>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -71,5 +73,15 @@ public class PlayerInfo : MonoBehaviour
     public bool CheckPlayerHurt()
     {
         return isHurt;
+    }
+
+    public void SetPlayerHurt (bool hurt)
+    {
+        isHurt = hurt;
+    }
+
+    public SpriteRenderer GetSpriteRenderer()
+    {
+        return spriteRenderer;
     }
 }
