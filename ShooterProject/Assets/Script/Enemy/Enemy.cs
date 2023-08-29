@@ -25,4 +25,14 @@ public class Enemy : MonoBehaviour
         targetPosition = PlayerInfo.instance.GetPlayerPosition();
         enemyTransform.position = Vector3.MoveTowards(enemyTransform.position, targetPosition, velocity * Time.deltaTime);
     }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        print("hit " + collision.collider.tag);
+        if (collision.collider.tag == "Bullet")
+        {
+            GameManager.Instance.SetGameScore(1);
+            Destroy(this.gameObject);
+        }
+    }
 }

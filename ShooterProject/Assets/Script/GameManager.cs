@@ -6,6 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    private int gameScore = 0;
+    private int playerLifes;
+
     private void Awake()
     {
         if (Instance == null)
@@ -24,5 +27,22 @@ public class GameManager : MonoBehaviour
         mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
         mousePosition.z = 0;
         return mousePosition;
+    }
+
+    public int GetGameScore()
+    {
+        return gameScore;
+    }
+
+    public void SetGameScore(int score)
+    {
+        gameScore += score;
+        UIManager.instance.SetScoreText(gameScore);
+    }
+
+    public void SetPlayerLife(int life)
+    {
+        playerLifes = life;
+        UIManager.instance.SetlifesText(playerLifes);
     }
 }

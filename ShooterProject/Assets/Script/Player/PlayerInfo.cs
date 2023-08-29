@@ -10,16 +10,15 @@ public class PlayerInfo : MonoBehaviour
 {
     public static PlayerInfo instance;
 
-    [SerializeField] private int lives = 3;
+    [SerializeField] private int lifes = 3;
     [SerializeField] private float playerSpeed = 10;
 
     //guarda informação da onde o player está
     private Transform playerTransform;
-
     private SpriteRenderer spriteRenderer;
+
     //se ele is hurt kkkk
     private bool isHurt;
-
     public bool isMoving;
     
     private void Awake()
@@ -36,18 +35,23 @@ public class PlayerInfo : MonoBehaviour
 
         playerTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        GameManager.Instance.SetPlayerLife(lifes);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        LifeHandler();
+        if (collision.collider.tag == "Enemy")
+        {
+            LifeHandler();
+        }
     }
 
     private void LifeHandler()
     {
         isHurt = true;
-        lives--;
-        if (lives <= 0)
+        lifes--;
+        GameManager.Instance.SetPlayerLife(lifes);
+        if (lifes <= 0)
         {
 
             Destroy(this.gameObject);

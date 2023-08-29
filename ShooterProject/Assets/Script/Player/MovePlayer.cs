@@ -47,11 +47,11 @@ public class MovePlayer : MonoBehaviour
     {
         if (moveX < 0)
         {
-            spriteRenderer.flipX = true;
+            PlayerInfo.instance.GetSpriteRenderer().flipX = true;
         }
         else if (moveX > 0) 
         {
-            spriteRenderer.flipX = false;
+            PlayerInfo.instance.GetSpriteRenderer().flipX = false;
         }
         
     }
