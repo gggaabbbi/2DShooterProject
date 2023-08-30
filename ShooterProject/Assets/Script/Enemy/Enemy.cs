@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
         print("hit " + collision.collider.tag);
         if (collision.collider.tag == "Bullet")
         {
-            GameManager.Instance.SetGameScore(1);
+            GameManager.instance.SetGameScore(1);
             Destroy(this.gameObject);
         }
     }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -20,7 +21,12 @@ public class PlayerInfo : MonoBehaviour
     //se ele is hurt kkkk
     private bool isHurt;
     public bool isMoving;
+
+    private int playerLevel;
+    private int currentPlayerXP;
+    private int toLevelUpXP = 10;
     
+    //Awake -> get component
     private void Awake()
     {
         //singleton = referência das informações do jogador
@@ -35,7 +41,11 @@ public class PlayerInfo : MonoBehaviour
 
         playerTransform = GetComponent<Transform>();
         spriteRenderer = GetComponent<SpriteRenderer>();
-        GameManager.Instance.SetPlayerLife(lifes);
+    }
+
+    private void Start()
+    {   
+        GameManager.instance.SetPlayerLife(lifes);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -50,7 +60,7 @@ public class PlayerInfo : MonoBehaviour
     {
         isHurt = true;
         lifes--;
-        GameManager.Instance.SetPlayerLife(lifes);
+        GameManager.instance.SetPlayerLife(lifes);
         if (lifes <= 0)
         {
 
@@ -88,4 +98,28 @@ public class PlayerInfo : MonoBehaviour
     {
         return spriteRenderer;
     }
+
+    public int GetPlayerLevel()
+    {
+        return playerLevel;
+    }
+
+    public void SetCurrentXP(int xpToAdd)
+    {
+        currentPlayerXP += xpToAdd;
+        CheckLevelUp();
+    }
+
+    private void CheckLevelUp()
+    {
+        // toda vez que subir de nível, vai zerar o XP e aumentar em 5 a dificuldade para subir
+        if (currentPlayerXP >= toLevelUpXP)
+        {
+            playerLevel++;
+            currentPlayerXP -= toLevelUpXP;
+            toLevelUpXP += 5;
+        }
+        GameManager.instance.SetNewXPInfo(playerLevel, currentPlayerXP, toLevelUpXP);
+    }
 }
+

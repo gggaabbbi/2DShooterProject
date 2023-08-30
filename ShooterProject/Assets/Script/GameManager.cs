@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;
+    public static GameManager instance;
 
     private int gameScore = 0;
     private int playerLifes;
 
     private void Awake()
     {
-        if (Instance == null)
+        //singleton = referência das informações do jogador
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
         }
         else
         {
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
     public void SetGameScore(int score)
     {
         gameScore += score;
+        PlayerInfo.instance.SetCurrentXP(score);
         UIManager.instance.SetScoreText(gameScore);
     }
 
@@ -44,5 +46,11 @@ public class GameManager : MonoBehaviour
     {
         playerLifes = life;
         UIManager.instance.SetlifesText(playerLifes);
+    }
+
+    public void SetNewXPInfo(int currentLevel, int currentXP, int toLevelUpXP)
+    {
+        UIManager.instance.SetXPInfoText(currentXP, toLevelUpXP);
+        UIManager.instance.SetPlayerLevelText(currentLevel);
     }
 }

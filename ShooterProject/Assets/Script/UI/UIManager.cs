@@ -10,9 +10,12 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI lifesText;
     [SerializeField] private TextMeshProUGUI scoreText;
+    [SerializeField] private TextMeshProUGUI xPInfoText;
+    [SerializeField] private TextMeshProUGUI currentLevelXPText;
 
     private void Awake()
     {
+        //singleton = referência das informações do jogador
         if (instance == null)
         {
             instance = this;
@@ -40,5 +43,15 @@ public class UIManager : MonoBehaviour
     public void SetlifesText (int updatedLife) 
     {
         lifesText.text = "Lifes: " + updatedLife;
+    }
+
+    public void SetXPInfoText(int currentXP, int toLevelUpXP)
+    {
+        xPInfoText.text = currentXP + " / " + toLevelUpXP;
+    }
+
+    public void SetPlayerLevelText(int newLevel)
+    {
+        currentLevelXPText.text = "Level: " + newLevel.ToString();
     }
 }
