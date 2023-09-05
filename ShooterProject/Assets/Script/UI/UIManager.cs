@@ -6,8 +6,11 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    [Header ("Containers")]
     public static UIManager instance;
+    [SerializeField] private Transform powerUpContainer;
 
+    [Header ("Top view-Texts")]
     [SerializeField] private TextMeshProUGUI lifesText;
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private TextMeshProUGUI xPInfoText;
@@ -33,6 +36,12 @@ public class UIManager : MonoBehaviour
     {
         lifesText.gameObject.SetActive(true);
         scoreText.gameObject.SetActive(true);
+        SetPowerUpContainer(false);
+    }
+
+    public void SetPowerUpContainer(bool isActive)
+    {
+        powerUpContainer.gameObject.SetActive(isActive);
     }
 
     public void SetScoreText (int updatedScore)

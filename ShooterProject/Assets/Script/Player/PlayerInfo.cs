@@ -25,7 +25,7 @@ public class PlayerInfo : MonoBehaviour
     private int playerLevel;
     private int currentPlayerXP;
     private int toLevelUpXP = 10;
-    
+
     //Awake -> get component
     private void Awake()
     {
@@ -44,7 +44,7 @@ public class PlayerInfo : MonoBehaviour
     }
 
     private void Start()
-    {   
+    {
         GameManager.instance.SetPlayerLife(lifes);
     }
 
@@ -52,20 +52,39 @@ public class PlayerInfo : MonoBehaviour
     {
         if (collision.collider.tag == "Enemy")
         {
-            LifeHandler();
+            LifeHandler(-1);
         }
     }
 
-    private void LifeHandler()
+    public void LifeHandler(int value)
     {
-        isHurt = true;
-        lifes--;
-        GameManager.instance.SetPlayerLife(lifes);
-        if (lifes <= 0)
+        if (value > 0)
         {
-
-            Destroy(this.gameObject);
+            lifes += value;
         }
+        else
+        {
+            isHurt = true;
+            lifes += value;
+            if (lifes <= 0)
+            {
+
+                Destroy(this.gameObject);
+            }
+        }
+        GameManager.instance.SetPlayerLife(lifes);
+    }
+    private void CheckLevelUp()
+    {
+        // toda vez que subir de nível, vai zerar o XP e aumentar em 5 a dificuldade para subir
+        if (currentPlayerXP >= toLevelUpXP)
+        {
+            playerLevel++;
+            currentPlayerXP -= toLevelUpXP;
+            toLevelUpXP += 5;
+            GameManager.instance.OnLevelUp();
+        }
+        GameManager.instance.SetLevelInfo(playerLevel, currentPlayerXP, toLevelUpXP);
     }
 
     public Vector2 GetPlayerPosition()
@@ -74,7 +93,7 @@ public class PlayerInfo : MonoBehaviour
         return playerTransform.position;
     }
 
-    public float GetPlayerSpeed ()
+    public float GetPlayerSpeed()
     {
         return playerSpeed;
     }
@@ -89,7 +108,7 @@ public class PlayerInfo : MonoBehaviour
         return isHurt;
     }
 
-    public void SetPlayerHurt (bool hurt)
+    public void SetPlayerHurt(bool hurt)
     {
         isHurt = hurt;
     }
@@ -110,16 +129,5 @@ public class PlayerInfo : MonoBehaviour
         CheckLevelUp();
     }
 
-    private void CheckLevelUp()
-    {
-        // toda vez que subir de nível, vai zerar o XP e aumentar em 5 a dificuldade para subir
-        if (currentPlayerXP >= toLevelUpXP)
-        {
-            playerLevel++;
-            currentPlayerXP -= toLevelUpXP;
-            toLevelUpXP += 5;
-        }
-        GameManager.instance.SetNewXPInfo(playerLevel, currentPlayerXP, toLevelUpXP);
-    }
 }
 
